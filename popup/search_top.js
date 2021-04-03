@@ -16,3 +16,5 @@ const changeInputMax = () => {
       timeLimitNumberInput.setAttribute("max", "99")
   }
 }
+
+timeLimitUnitSelect.addEventListener("change", changeInputMax)
