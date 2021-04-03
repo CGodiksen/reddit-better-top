@@ -7,10 +7,16 @@
   "homepage_url": "https://github.com/CGodiksen/reddit-better-top",
   
   "icons": {
-    "48": "icons/block_48.png"
+    "48": "icons/search_48.png"
   },
 
   "permissions": [
     "storage"
-  ]
+  ],
+
+  "browser_action": {
+    "default_icon": "icons/search_32.png",
+    "default_title": "Reddit Better Top",
+    "default_popup": "popup/search_top.html"
+  }
 }
