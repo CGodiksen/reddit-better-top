@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+  "name": "Reddit Better Top",
+  "version": "1.0",
+
+  "description": "Offering more time options for the 'Top' feature on Reddit.",
+  "homepage_url": "https://github.com/CGodiksen/reddit-better-top",
+  
+  "icons": {
+    "48": "icons/block_48.png"
+  },
+
+  "permissions": [
+    "storage"
+  ]
+}
