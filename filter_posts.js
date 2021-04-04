@@ -1,3 +1,13 @@
+// Reload the page, filter the initial posts and start the mutation observer that filters subsequent posts.
+const startFilter = (time_limit) => {
+
+}
+
+// Remove the given post if it was posted before the given time limit.
+const filterPost = (post, time_limit) => {
+
+}
+
 // Return list containing the post that are loaded initially on the page and therefore not caught by the mutation observer.
 const getInitialPosts = () => {
   const initialPosts = []
@@ -11,8 +21,6 @@ const getInitialPosts = () => {
 
   return initialPosts
 }
-
-console.log(getInitialPosts());
 
 // Create an observer that filters a post every time it is added to the document.
 const observer = new MutationObserver((mutationList, _observer) => {
