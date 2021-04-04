@@ -50,7 +50,7 @@ const searchTop = () => {
   }, console.error)
 }
 
-// Return a new url that does a top search that encapsulates the custom top search.
+// Return a new url that makes a top query that encapsulates the custom top search.
 const getTopURL = (original_url) => {
   const time_limit_number = timeLimitNumberInput.value
   const time_limit_unit = timeLimitUnitSelect.value
@@ -58,10 +58,10 @@ const getTopURL = (original_url) => {
   const t = "week"
 
   if (original_url === "https://www.reddit.com") {
-    return `${url}/top/?t=${t}`
+    return `${original_url}/top/?t=${t}`
   } else {
     const cleanURL = original_url.split("/").slice(0, 5).join("/")
-    return cleanURL
+    return `${cleanURL}/top/?t=${t}`
   }
 }
 
