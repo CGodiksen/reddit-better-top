@@ -1,3 +1,19 @@
+// Return list containing the post that are loaded initially on the page and therefore not caught by the mutation observer.
+const getInitialPosts = () => {
+  const initialPosts = []
+  divs = document.getElementsByTagName("div")
+  
+  for (const div of divs) {
+    if (div.firstChild && div.firstChild.textContent.includes("Posted by") && div.firstChild.className.includes("Post")) {
+      initialPosts.push(div.firstChild)
+    }
+  }
+
+  return initialPosts
+}
+
+console.log(getInitialPosts());
+
 // Create an observer that filters a post every time it is added to the document.
 const observer = new MutationObserver((mutationList, _observer) => {
   mutationList.forEach(mutation => {
