@@ -18,3 +18,8 @@ const changeInputMax = () => {
 }
 
 timeLimitUnitSelect.addEventListener("change", changeInputMax)
+
+// TODO: Turn off search button if the current page is not a subreddit or the reddit frontpage.
+// TODO: Send a message to the content script when the "search" button is clicked. The message should contain the time limit.
+// TODO: When the button is clicked first reload the page with a url that matches the given time limit.
+// TODO: Test if content script url match calling can be removed since it is called from here.

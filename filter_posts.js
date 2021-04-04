@@ -1,11 +1,13 @@
-// Reload the page, filter the initial posts and start the mutation observer that filters subsequent posts.
+// Filter the initial posts and start the mutation observer that filters subsequent posts.
 const startFilter = (time_limit) => {
-
+  // TODO: Start the mutation observer.
+  // TODO: Filter the initial posts.
 }
 
-// Remove the given post if it was posted before the given time limit.
+// Remove the given post if it was posted after the given time limit.
 const filterPost = (post, time_limit) => {
-
+  // TODO: Find the time the post was posted.
+  // TODO: Remove it, if it was posted after the given time limit.
 }
 
 // Return list containing the post that are loaded initially on the page and therefore not caught by the mutation observer.
