@@ -37,3 +37,10 @@ const observer = new MutationObserver((mutationList, _observer) => {
 });
 
 observer.observe(document, { childList: true, subtree: true });
+
+browser.runtime.onMessage.addListener(request => {
+  // Message received from the browser action, sent when "search" button is clicked.
+  if (request.startFilter) {
+    startFilter(request.time_limit)
+  }
+});
