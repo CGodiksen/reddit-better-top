@@ -26,7 +26,7 @@ const enableIfRedditTop = () => {
     const split_url = tab.url.split("/")
 
     // Only considering pages that have the "Top" feature.
-    if (tab.url === "https://www.reddit.com/" || (split_url[3] === "r" && ["", "hot", "new", "top"].includes(split_url[5]))) {
+    if (tab.url == "https://www.reddit.com/" || (split_url[3] == "r" && ["", "hot", "new", "top"].includes(split_url[5]))) {
       searchTopBtn.removeAttribute("disabled")
     }
   }, console.error)
@@ -43,7 +43,7 @@ const searchTop = () => {
     console.log(getTopURL(tab.url));
 
     browser.tabs.onUpdated.addListener((tabId, _changeInfo, tabInfo) => {
-      if (tabInfo.status === "complete") {
+      if (tabInfo.status == "complete") {
         browser.tabs.sendMessage(tabId, { startFilter: true, test: "Hello world" })
       }
     });
@@ -52,12 +52,23 @@ const searchTop = () => {
 
 // Return a new url that makes a top query that encapsulates the custom top search.
 const getTopURL = (original_url) => {
+  let t = ""
   const time_limit_number = timeLimitNumberInput.value
   const time_limit_unit = timeLimitUnitSelect.value
 
-  const t = "week"
+  switch (time_limit_unit) {
+    case "Years":
+      t = (time_limit_number == 1) ? "year" : "all"
+      break;
+    case "Months":
+      t = (time_limit_number == 1) ? "month" : "year"
+      break;
+    case "Days":
+      t = (time_limit_number == 1) ? "day" : "month"
+      break;
+  }
 
-  if (original_url === "https://www.reddit.com") {
+  if (original_url == "https://www.reddit.com") {
     return `${original_url}/top/?t=${t}`
   } else {
     const cleanURL = original_url.split("/").slice(0, 5).join("/")
