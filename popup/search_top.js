@@ -39,7 +39,7 @@ const searchTop = () => {
   browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
     const tab = tabs[0];
 
-    browser.tabs.update({url: getTopURL(tab.url)});
+    browser.tabs.update({ url: getTopURL(tab.url) });
 
     browser.tabs.onUpdated.addListener((tabId, _changeInfo, tabInfo) => {
       if (tabInfo.status == "complete") {
@@ -72,9 +72,15 @@ const getTopQueryValue = () => {
     case "Months":
       return (time_limit_number == 1) ? "month" : "year"
     case "Days":
-      return (time_limit_number == 1) ? "day" : "month"
+      if (time_limit_number == 1) {
+        return "day"
+      } else if (time_limit_number <= 7) {
+        return "week"
+      } else {
+        return "month"
+      }
   }
-} 
+}
 
 searchTopBtn.addEventListener("click", searchTop)
 
