@@ -25,7 +25,8 @@ const enableIfRedditTop = () => {
     const tab = tabs[0];
     const split_url = tab.url.split("/")
 
-    // Only considering pages that have the "Top" feature.
+    // Only considering pages that have the "Top" feature. 
+    // TODO: Handle different viable urls on the reddit frontpage. 
     if (tab.url == "https://www.reddit.com/" || (split_url[3] == "r" && ["", "hot", "new", "top"].includes(split_url[5]))) {
       searchTopBtn.removeAttribute("disabled")
     }
@@ -43,7 +44,7 @@ const searchTop = () => {
 
     browser.tabs.onUpdated.addListener((tabId, _changeInfo, tabInfo) => {
       if (tabInfo.status == "complete") {
-        browser.tabs.sendMessage(tabId, { startFilter: true, test: "Hello world" })
+        browser.tabs.sendMessage(tabId, { startFilter: true, time_limit_number: timeLimitNumberInput.value, time_limit_unit: timeLimitUnitSelect.value })
       }
     });
   }, console.error)
