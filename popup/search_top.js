@@ -19,8 +19,11 @@ const changeInputMax = () => {
 
 timeLimitUnitSelect.addEventListener("change", changeInputMax)
 
+// Reload the page and send a message to the content script requesting post filtering according to the selected time limit.
 const searchTop = () => {
-  console.log("Testing");
+  browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
+    browser.tabs.reload(tabs[0].id);
+  }, console.error)
 }
 
 searchTopBtn.addEventListener("click", searchTop)
