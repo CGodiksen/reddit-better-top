@@ -19,21 +19,6 @@ const changeInputMax = () => {
 
 timeLimitUnitSelect.addEventListener("change", changeInputMax)
 
-// Reload the page and send a message to the content script requesting post filtering according to the selected time limit.
-const searchTop = () => {
-  browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
-    browser.tabs.reload(tabs[0].id)
-
-    browser.tabs.onUpdated.addListener((tabId, _changeInfo, tabInfo) => {
-      if (tabInfo.status === "complete") {
-        browser.tabs.sendMessage(tabId, { startFilter: true, test: "Hello world" })
-      }
-    });
-  }, console.error)
-}
-
-searchTopBtn.addEventListener("click", searchTop)
-
 // Enable the search button if the current active tab is a Reddit page that has the "Top" feature.
 const enableIfRedditTop = () => {
   browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
@@ -48,6 +33,39 @@ const enableIfRedditTop = () => {
 }
 
 enableIfRedditTop()
+
+// Reload the page and send a message to the content script requesting post filtering according to the selected time limit.
+const searchTop = () => {
+  browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
+    const tab = tabs[0];
+
+    browser.tabs.reload(tab.id)
+    console.log(getTopURL(tab.url));
+
+    browser.tabs.onUpdated.addListener((tabId, _changeInfo, tabInfo) => {
+      if (tabInfo.status === "complete") {
+        browser.tabs.sendMessage(tabId, { startFilter: true, test: "Hello world" })
+      }
+    });
+  }, console.error)
+}
+
+// Return a new url that does a top search that encapsulates the custom top search.
+const getTopURL = (original_url) => {
+  const time_limit_number = timeLimitNumberInput.value
+  const time_limit_unit = timeLimitUnitSelect.value
+
+  const t = "week"
+
+  if (original_url === "https://www.reddit.com") {
+    return `${url}/top/?t=${t}`
+  } else {
+    const cleanURL = original_url.split("/").slice(0, 5).join("/")
+    return cleanURL
+  }
+}
+
+searchTopBtn.addEventListener("click", searchTop)
 
 // TODO: Send a message to the content script when the "search" button is clicked. The message should contain the time limit.
 // TODO: When the button is clicked first reload the page with a url that matches the given time limit.
