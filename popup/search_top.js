@@ -50,23 +50,9 @@ const searchTop = () => {
   }, console.error)
 }
 
-// Return a new url that makes a top query that encapsulates the custom top search.
+// Return a new url that makes a top search on the current page.
 const getTopURL = (original_url) => {
-  let t = ""
-  const time_limit_number = timeLimitNumberInput.value
-  const time_limit_unit = timeLimitUnitSelect.value
-
-  switch (time_limit_unit) {
-    case "Years":
-      t = (time_limit_number == 1) ? "year" : "all"
-      break;
-    case "Months":
-      t = (time_limit_number == 1) ? "month" : "year"
-      break;
-    case "Days":
-      t = (time_limit_number == 1) ? "day" : "month"
-      break;
-  }
+  const t = getTopQueryValue()
 
   if (original_url == "https://www.reddit.com") {
     return `${original_url}/top/?t=${t}`
@@ -75,6 +61,21 @@ const getTopURL = (original_url) => {
     return `${cleanURL}/top/?t=${t}`
   }
 }
+
+// Return a top query value that encapsulates the custom top search.
+const getTopQueryValue = () => {
+  const time_limit_number = timeLimitNumberInput.value
+  const time_limit_unit = timeLimitUnitSelect.value
+
+  switch (time_limit_unit) {
+    case "Years":
+      return (time_limit_number == 1) ? "year" : "all"
+    case "Months":
+      return (time_limit_number == 1) ? "month" : "year"
+    case "Days":
+      return (time_limit_number == 1) ? "day" : "month"
+  }
+} 
 
 searchTopBtn.addEventListener("click", searchTop)
 
