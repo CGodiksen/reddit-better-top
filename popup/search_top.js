@@ -42,12 +42,14 @@ const searchTop = () => {
 
     browser.tabs.update({ url: getTopURL(tab.url) });
 
-    browser.tabs.onUpdated.addListener((tabId, _changeInfo, tabInfo) => {
-      if (tabInfo.status == "complete") {
-        browser.tabs.sendMessage(tabId, { startFilter: true, time_limit_number: timeLimitNumberInput.value, time_limit_unit: timeLimitUnitSelect.value })
-      }
-    });
+    browser.tabs.onUpdated.addListener(requestFilterStart);
   }, console.error)
+}
+
+const requestFilterStart = (tabId, _changeInfo, tabInfo) => {
+  if (tabInfo.status == "complete") {
+    browser.tabs.sendMessage(tabId, { startFilter: true, time_limit_number: timeLimitNumberInput.value, time_limit_unit: timeLimitUnitSelect.value })
+  }
 }
 
 // Return a new url that makes a top search on the current page.
@@ -84,7 +86,3 @@ const getTopQueryValue = () => {
 }
 
 searchTopBtn.addEventListener("click", searchTop)
-
-// TODO: Send a message to the content script when the "search" button is clicked. The message should contain the time limit.
-// TODO: When the button is clicked first reload the page with a url that matches the given time limit.
-// TODO: Test if content script url match calling can be removed since it is called from here.
