@@ -34,13 +34,12 @@ const enableIfRedditTop = () => {
 
 enableIfRedditTop()
 
-// Reload the page and send a message to the content script requesting post filtering according to the selected time limit.
+// Update the page and send a message to the content script requesting post filtering according to the selected time limit.
 const searchTop = () => {
   browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
     const tab = tabs[0];
 
-    browser.tabs.reload(tab.id)
-    console.log(getTopURL(tab.url));
+    browser.tabs.update({url: getTopURL(tab.url)});
 
     browser.tabs.onUpdated.addListener((tabId, _changeInfo, tabInfo) => {
       if (tabInfo.status == "complete") {
@@ -54,8 +53,8 @@ const searchTop = () => {
 const getTopURL = (original_url) => {
   const t = getTopQueryValue()
 
-  if (original_url == "https://www.reddit.com") {
-    return `${original_url}/top/?t=${t}`
+  if (original_url == "https://www.reddit.com/") {
+    return `${original_url}top/?t=${t}`
   } else {
     const cleanURL = original_url.split("/").slice(0, 5).join("/")
     return `${cleanURL}/top/?t=${t}`
