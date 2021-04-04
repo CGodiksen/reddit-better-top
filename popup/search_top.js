@@ -25,11 +25,15 @@ const searchTop = () => {
 
 searchTopBtn.addEventListener("click", searchTop)
 
-// Enable the search button if the current active tab is a Reddit page that has the top feature.
+// Enable the search button if the current active tab is a Reddit page that has the "Top" feature.
 const enableIfRedditTop = () => {
   browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
       const url = tabs[0].url;
-      console.log(url);
+      const split_url = url.split("/")
+
+      // Only considering pages that have the "Top" feature.
+      if (url === "https://www.reddit.com/" || (split_url[3] === "r" && ["", "hot", "new", "top"].includes(split_url[5]))) {
+      }
     }, console.error)
 }
 
