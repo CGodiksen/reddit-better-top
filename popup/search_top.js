@@ -28,18 +28,18 @@ searchTopBtn.addEventListener("click", searchTop)
 // Enable the search button if the current active tab is a Reddit page that has the "Top" feature.
 const enableIfRedditTop = () => {
   browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
-      const url = tabs[0].url;
-      const split_url = url.split("/")
+      const tab = tabs[0];
+      const split_url = tab.url.split("/")
 
       // Only considering pages that have the "Top" feature.
-      if (url === "https://www.reddit.com/" || (split_url[3] === "r" && ["", "hot", "new", "top"].includes(split_url[5]))) {
+      if (tab.url === "https://www.reddit.com/" || (split_url[3] === "r" && ["", "hot", "new", "top"].includes(split_url[5]))) {
+        searchTopBtn.removeAttribute("disabled")
       }
     }, console.error)
 }
 
 enableIfRedditTop()
 
-// TODO: Turn off search button if the current page is not a subreddit or the reddit frontpage.
 // TODO: Send a message to the content script when the "search" button is clicked. The message should contain the time limit.
 // TODO: When the button is clicked first reload the page with a url that matches the given time limit.
 // TODO: Test if content script url match calling can be removed since it is called from here.
