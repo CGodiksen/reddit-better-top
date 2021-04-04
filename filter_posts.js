@@ -43,6 +43,7 @@ observer.observe(document, { childList: true, subtree: true });
 browser.runtime.onMessage.addListener(request => {
   // Message received from the browser action, sent when "search" button is clicked.
   if (request.startFilter) {
-    startFilter(request.time_limit)
+    console.log(request.test);
+    // startFilter(request.time_limit)
   }
 });

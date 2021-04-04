@@ -22,7 +22,13 @@ timeLimitUnitSelect.addEventListener("change", changeInputMax)
 // Reload the page and send a message to the content script requesting post filtering according to the selected time limit.
 const searchTop = () => {
   browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
-    browser.tabs.reload(tabs[0].id);
+    browser.tabs.reload(tabs[0].id)
+
+    browser.tabs.onUpdated.addListener((tabId, _changeInfo, tabInfo) => {
+      if (tabInfo.status === "complete") {
+        browser.tabs.sendMessage(tabId, { startFilter: true, test: "Hello world" })
+      }
+    });
   }, console.error)
 }
 
@@ -31,14 +37,14 @@ searchTopBtn.addEventListener("click", searchTop)
 // Enable the search button if the current active tab is a Reddit page that has the "Top" feature.
 const enableIfRedditTop = () => {
   browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
-      const tab = tabs[0];
-      const split_url = tab.url.split("/")
+    const tab = tabs[0];
+    const split_url = tab.url.split("/")
 
-      // Only considering pages that have the "Top" feature.
-      if (tab.url === "https://www.reddit.com/" || (split_url[3] === "r" && ["", "hot", "new", "top"].includes(split_url[5]))) {
-        searchTopBtn.removeAttribute("disabled")
-      }
-    }, console.error)
+    // Only considering pages that have the "Top" feature.
+    if (tab.url === "https://www.reddit.com/" || (split_url[3] === "r" && ["", "hot", "new", "top"].includes(split_url[5]))) {
+      searchTopBtn.removeAttribute("disabled")
+    }
+  }, console.error)
 }
 
 enableIfRedditTop()
