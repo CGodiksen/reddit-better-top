@@ -34,11 +34,8 @@ const filterPost = (post) => {
   const postedTimeNumber = parseInt(postedTime[0])
   const postedTimeUnit = postedTime[1]
 
-  console.log(postedTimeNumber, postedTimeUnit);
-  console.log(!(postedTimeUnit.includes(timeLimitUnit) && postedTimeNumber > timeLimitNumber));
-
-  if (!(postedTimeUnit.includes(timeLimitUnit) && postedTimeNumber > timeLimitNumber)) {
-    // post.remove()
+  if (postedTimeUnit.includes(timeLimitUnit) && postedTimeNumber > timeLimitNumber) {
+    post.remove()
   }
 }
 
