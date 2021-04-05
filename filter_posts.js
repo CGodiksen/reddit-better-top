@@ -1,4 +1,3 @@
-// TODO: Add more options to the "Top" menu on the page itself.
 // TODO: Apply validation to input when button is clicked.
 
 // Global state keeping track of current custom time limit, if any.
@@ -11,11 +10,11 @@ const startFilter = () => {
     filterPost(post)
   }
 
-  observer.observe(document, { childList: true, subtree: true });
+  postObserver.observe(document, { childList: true, subtree: true });
 }
 
 // Create an observer that filters a post every time it is added to the document.
-const observer = new MutationObserver((mutationList, _observer) => {
+const postObserver = new MutationObserver((mutationList, _observer) => {
   mutationList.forEach(mutation => {
     if (mutation.type == "childList" && mutation.addedNodes.length > 0) {
       mutation.addedNodes.forEach((node) => {
@@ -95,6 +94,8 @@ const addTopOptions = () => {
   topDropdown.appendChild(twoWeeksOption)
 }
 
+addTopOptions()
+
 // Return a new "a" tag that has a click event listener which starts the specified filter when the tab is reloaded.
 const createTopOption = (optionName, t, timeLimitNumber, timeLimitUnit) => {
   const newOption = document.getElementsByClassName("_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G")[5].cloneNode(true)
@@ -109,5 +110,3 @@ const createTopOption = (optionName, t, timeLimitNumber, timeLimitUnit) => {
 
   return newOption
 }
-
-addTopOptions()
