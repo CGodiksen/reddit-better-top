@@ -86,3 +86,16 @@ browser.runtime.onMessage.addListener(request => {
     startFilter()
   }
 })
+
+// Add commonly used options to the "Top" dropdown menu on the page itself.
+const addTopOptions = () => {
+  const hotOption = document.getElementsByClassName("_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G")[0]
+  console.log(hotOption);
+}
+
+// Return a new "a" tag that has a click event listener which makes a top query with specified time limit.
+const createTopOption = (optionName, timeLimitNumber, timeLimitUnit) => {
+  
+}
+
+addTopOptions()
