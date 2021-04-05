@@ -94,9 +94,9 @@ browser.runtime.onMessage.addListener(request => {
 
 // Add commonly used options to the "Top" dropdown menu on the page itself.
 const addTopOptions = (topDropdown) => {
-  createTopOption("Three Days", "week", 3, "day", topDropdown)
-  createTopOption("Two Weeks", "month", 14, "day", topDropdown)
-  createTopOption("Six Months", "year", 6, "month", topDropdown)
+  createTopOption("Three Days", "week", 3, "day", topDropdown, 2)
+  createTopOption("Two Weeks", "month", 14, "day", topDropdown, 4)
+  createTopOption("Six Months", "year", 6, "month", topDropdown, 6)
 }
 
 // Create an observer that adds the custom top options when the "Top" dropdown is opened. 
@@ -109,10 +109,11 @@ const topObserver = createMutationObserver((node) => {
 topObserver.observe(document, { childList: true, subtree: true });
 
 // Create a new top option that has a click event listener which starts the specified filter when the tab is reloaded.
-const createTopOption = (optionName, t, timeLimitNumber, timeLimitUnit, topDropdown) => {
-  const newOption = document.getElementsByClassName("_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G")[5].cloneNode(true)
+const createTopOption = (optionName, t, timeLimitNumber, timeLimitUnit, topDropdown, insertAt) => {
+  const existingOption = document.getElementsByClassName("_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G")[insertAt + 5]
+  const newOption = existingOption.cloneNode(true)
 
-  newOption.setAttribute("href", `${newOption.href.slice(0, -4)}${t}`)
+  newOption.setAttribute("href", `${newOption.href.split("=")[0]}=${t}`)
   newOption.firstChild.innerHTML = optionName
 
   newOption.addEventListener("click", () => {
@@ -120,5 +121,5 @@ const createTopOption = (optionName, t, timeLimitNumber, timeLimitUnit, topDropd
     browser.runtime.sendMessage({ startFilterOnUpdate: true, timeLimitNumber: timeLimitNumber, timeLimitUnit: timeLimitUnit })
   })
 
-  topDropdown.appendChild(newOption)
+  topDropdown.insertBefore(newOption, existingOption)
 }
