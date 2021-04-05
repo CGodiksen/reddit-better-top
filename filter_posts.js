@@ -89,7 +89,10 @@ browser.runtime.onMessage.addListener(request => {
 
 // Add commonly used options to the "Top" dropdown menu on the page itself.
 const addTopOptions = () => {
-  createTopOption("Last Two Weeks", "month", 14, "day")
+  const topDropdown = document.getElementsByClassName("_2uYY-KeuYHKiwl-9aF0UiL Sgi9lgQUrox4tW9Q75iif isNotInIcons2020")[0]
+
+  const twoWeeksOption = createTopOption("Last Two Weeks", "month", 14, "day")
+  topDropdown.appendChild(twoWeeksOption)
 }
 
 // Return a new "a" tag that has a click event listener which makes a top query with specified time limit.
