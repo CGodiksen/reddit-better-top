@@ -18,7 +18,7 @@ const startFilter = () => {
 const getInitialPosts = () => {
   const initialPosts = []
   divs = document.getElementsByTagName("div")
-  
+
   for (const div of divs) {
     if (div.firstChild && div.firstChild.textContent.includes("Posted by") && div.firstChild.className.includes("Post")) {
       initialPosts.push(div.firstChild)
@@ -28,17 +28,38 @@ const getInitialPosts = () => {
   return initialPosts
 }
 
-// TODO: Handle edge case with days and "1 month" (also handle "1 day" when hours is added). Maybe just change "1 month" to "31 days" and "1 day" to "24 hours" in function. (1 year)
 // Remove the given post if it was posted after the given time limit.
 const filterPost = (post) => {
   const postedTime = post.getElementsByTagName("a")[1].innerHTML.split(" ")
-  
+
   const postedTimeNumber = parseInt(postedTime[0])
   const postedTimeUnit = postedTime[1]
 
-  if (postedTimeUnit.includes(timeLimitUnit) && postedTimeNumber > timeLimitNumber) {
+  if (outsideTimeLimit(postedTimeNumber, postedTimeUnit)) {
     post.remove()
   }
+}
+
+const outsideTimeLimit = (postedTimeNumber, postedTimeUnit) => {
+  // Handle edge cases.
+  if (postedTimeNumber == 1) {
+    switch (postedTimeUnit) {
+      case "day":
+        postedTimeNumber = 24
+        postedTimeUnit = "hour"
+        break;
+      case "month":
+        postedTimeNumber = 31
+        postedTimeUnit = "day"
+        break;
+      case "year":
+        postedTimeNumber = 12
+        postedTimeUnit = "month"
+        break;
+    }
+  }
+
+  return postedTimeUnit.includes(timeLimitUnit) && postedTimeNumber > timeLimitNumber
 }
 
 // Create an observer that filters a post every time it is added to the document.
