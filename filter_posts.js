@@ -52,6 +52,7 @@ const withinTimeLimit = (postedTimeNumber, postedTimeUnit) => {
     case "Days":
       return !(postedTimeUnit.includes("day") && postedTimeNumber > timeLimitNumber)
   }
+  return true
 }
 
 // Create an observer that filters a post every time it is added to the document.

@@ -70,11 +70,11 @@ const getTopQueryValue = () => {
   const time_limit_unit = timeLimitUnitSelect.value
 
   switch (time_limit_unit) {
-    case "Years":
+    case "year":
       return (time_limit_number == 1) ? "year" : "all"
-    case "Months":
+    case "month":
       return (time_limit_number == 1) ? "month" : "year"
-    case "Days":
+    case "day":
       if (time_limit_number == 1) {
         return "day"
       } else if (time_limit_number <= 7) {
