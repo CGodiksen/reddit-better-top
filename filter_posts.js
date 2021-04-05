@@ -4,8 +4,11 @@ let timeLimitUnit = ""
 
 // Filter the initial posts and start the mutation observer that filters subsequent posts.
 const startFilter = () => {
+  for (const post of getInitialPosts()) {
+    filterPost(post)
+  }
+  
   observer.observe(document, { childList: true, subtree: true });
-  // TODO: Filter the initial posts.
 }
 
 // Remove the given post if it was posted after the given time limit.
