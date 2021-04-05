@@ -1,4 +1,3 @@
-// TODO: Add Hours option to custom time limit.
 // TODO: Add more options to the "Top" menu on the page itself.
 // TODO: Apply validation to input when button is clicked.
 

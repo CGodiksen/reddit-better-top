@@ -76,10 +76,8 @@ const getTopQueryValue = () => {
   const timeLimitUnit = timeLimitUnitSelect.value
 
   switch (timeLimitUnit) {
-    case "year":
-      return (timeLimitNumber == 1) ? "year" : "all"
-    case "month":
-      return (timeLimitNumber == 1) ? "month" : "year"
+    case "hour":
+      return (timeLimitNumber == 1) ? "hour" : "day"
     case "day":
       if (timeLimitNumber == 1) {
         return "day"
@@ -88,5 +86,9 @@ const getTopQueryValue = () => {
       } else {
         return "month"
       }
+    case "month":
+      return (timeLimitNumber == 1) ? "month" : "year"
+    case "year":
+      return (timeLimitNumber == 1) ? "year" : "all"
   }
 }
