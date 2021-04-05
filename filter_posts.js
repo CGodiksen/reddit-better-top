@@ -4,6 +4,19 @@
 let timeLimitNumber = 0
 let timeLimitUnit = ""
 
+// Return a mutation observer that calls the given callback for each node that is added to the DOM.
+const createMutationObserver = (callback) => {
+  return new MutationObserver((mutationList, _observer) => {
+    mutationList.forEach(mutation => {
+      if (mutation.type == "childList" && mutation.addedNodes.length > 0) {
+        mutation.addedNodes.forEach((node) => {
+          callback(node)
+        })
+      }
+    })
+  })
+}
+
 // Filter the initial posts and start the mutation observer that filters subsequent posts.
 const startFilter = () => {
   for (const post of getInitialPosts()) {
@@ -93,17 +106,11 @@ const addTopOptions = (topDropdown) => {
 }
 
 // Create an observer that adds the custom top options when the "Top" dropdown is opened. 
-const topObserver = new MutationObserver((mutationList, _observer) => {
-  mutationList.forEach(mutation => {
-    if (mutation.type == "childList" && mutation.addedNodes.length > 0) {
-      mutation.addedNodes.forEach((node) => {
-        // If the new node is the "Top" dropdown menu then add custom top options.
-        if (node.tagName == "DIV" && node.id == "" && node.className == "_2uYY-KeuYHKiwl-9aF0UiL Sgi9lgQUrox4tW9Q75iif isNotInIcons2020") {
-          addTopOptions(node)
-        }
-      })
-    }
-  })
+const topObserver = createMutationObserver((node) => {
+  // If the new node is the "Top" dropdown menu then add custom top options.
+  if (node.tagName == "DIV" && node.id == "" && node.className == "_2uYY-KeuYHKiwl-9aF0UiL Sgi9lgQUrox4tW9Q75iif isNotInIcons2020") {
+    addTopOptions(node)
+  }
 })
 
 topObserver.observe(document, { childList: true, subtree: true });
