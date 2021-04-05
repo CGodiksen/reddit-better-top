@@ -14,6 +14,20 @@ const startFilter = () => {
   observer.observe(document, { childList: true, subtree: true });
 }
 
+// Create an observer that filters a post every time it is added to the document.
+const observer = new MutationObserver((mutationList, _observer) => {
+  mutationList.forEach(mutation => {
+    if (mutation.type == "childList" && mutation.addedNodes.length > 0) {
+      mutation.addedNodes.forEach((node) => {
+        // If the new node is a post then check if it should be filtered.
+        if (node.tagName == "DIV" && node.id == "" && node.className == "" && node.firstChild.firstChild) {
+          filterPost(node.firstChild.firstChild)
+        }
+      })
+    }
+  })
+})
+
 // Return list containing the post that are loaded initially on the page and therefore not caught by the mutation observer.
 const getInitialPosts = () => {
   const initialPosts = []
@@ -62,20 +76,6 @@ const outsideTimeLimit = (postedTimeNumber, postedTimeUnit) => {
   return postedTimeUnit.includes(timeLimitUnit) && postedTimeNumber > timeLimitNumber
 }
 
-// Create an observer that filters a post every time it is added to the document.
-const observer = new MutationObserver((mutationList, _observer) => {
-  mutationList.forEach(mutation => {
-    if (mutation.type == "childList" && mutation.addedNodes.length > 0) {
-      mutation.addedNodes.forEach((node) => {
-        // If the new node is a post then check if it should be filtered.
-        if (node.tagName == "DIV" && node.id == "" && node.className == "" && node.firstChild.firstChild) {
-          filterPost(node.firstChild.firstChild)
-        }
-      })
-    }
-  })
-});
-
 browser.runtime.onMessage.addListener(request => {
   // Message received from the browser action, sent when "search" button is clicked.
   if (request.startFilter) {
@@ -85,4 +85,4 @@ browser.runtime.onMessage.addListener(request => {
 
     startFilter()
   }
-});
+})
