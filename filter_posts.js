@@ -95,13 +95,18 @@ const addTopOptions = () => {
   topDropdown.appendChild(twoWeeksOption)
 }
 
-// Return a new "a" tag that has a click event listener which makes a top query with specified time limit.
+// Return a new "a" tag that has a click event listener which starts the specified filter when the tab is reloaded.
 const createTopOption = (optionName, t, timeLimitNumber, timeLimitUnit) => {
   const newOption = document.getElementsByClassName("_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G")[5].cloneNode(true)
-  
+
   newOption.setAttribute("href", `${newOption.href.slice(0, -4)}${t}`)
   newOption.firstChild.innerHTML = optionName
-  
+
+  newOption.addEventListener("click", () => {
+    // Send a message to the background script which can start the filter when the tab is updated.
+    browser.runtime.sendMessage({ startFilterOnUpdate: true, timeLimitNumber: timeLimitNumber, timeLimitUnit: timeLimitUnit })
+  })
+
   return newOption
 }
 
