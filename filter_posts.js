@@ -7,12 +7,13 @@ const startFilter = () => {
   for (const post of getInitialPosts()) {
     filterPost(post)
   }
-  
+
   observer.observe(document, { childList: true, subtree: true });
 }
 
 // Remove the given post if it was posted after the given time limit.
 const filterPost = (post) => {
+  console.log(post);
   // TODO: Find the time the post was posted.
   // TODO: Remove it, if it was posted after the given time limit.
 }
@@ -37,8 +38,8 @@ const observer = new MutationObserver((mutationList, _observer) => {
     if (mutation.type == "childList" && mutation.addedNodes.length > 0) {
       mutation.addedNodes.forEach((node) => {
         // If the new node is a post then check if it should be filtered.
-        if (node.tagName == "DIV" && node.id == "" && node.className == "") {
-          filterPost(node)
+        if (node.tagName == "DIV" && node.id == "" && node.className == "" && node.firstChild.firstChild) {
+          filterPost(node.firstChild.firstChild)
         }
       })
     }
