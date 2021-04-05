@@ -28,11 +28,11 @@ timeLimitUnitSelect.addEventListener("change", changeInputMax)
 const enableIfRedditTop = () => {
   browser.tabs.query({ currentWindow: true, active: true }).then((tabs) => {
     const tab = tabs[0];
-    const split_url = tab.url.split("/")
+    const splitURL = tab.url.split("/")
 
     // Only considering pages that have the "Top" feature. 
     // TODO: Handle different viable urls on the reddit frontpage. 
-    if (tab.url == "https://www.reddit.com/" || (split_url[3] == "r" && ["", "hot", "new", "top"].includes(split_url[5]))) {
+    if (tab.url == "https://www.reddit.com/" || (splitURL[3] == "r" && ["", "hot", "new", "top"].includes(splitURL[5]))) {
       searchTopBtn.removeAttribute("disabled")
     }
   }, console.error)
@@ -60,31 +60,31 @@ const requestFilterStart = (tabId, _changeInfo, tabInfo) => {
 }
 
 // Return a new url that makes a top search on the current page.
-const getTopURL = (original_url) => {
+const getTopURL = (originalURL) => {
   const t = getTopQueryValue()
 
-  if (original_url == "https://www.reddit.com/") {
-    return `${original_url}top/?t=${t}`
+  if (originalURL == "https://www.reddit.com/") {
+    return `${originalURL}top/?t=${t}`
   } else {
-    const cleanURL = original_url.split("/").slice(0, 5).join("/")
+    const cleanURL = originalURL.split("/").slice(0, 5).join("/")
     return `${cleanURL}/top/?t=${t}`
   }
 }
 
 // Return a top query value that encapsulates the custom top search.
 const getTopQueryValue = () => {
-  const time_limit_number = timeLimitNumberInput.value
-  const time_limit_unit = timeLimitUnitSelect.value
+  const timeLimitNumber = timeLimitNumberInput.value
+  const timeLimitUnit = timeLimitUnitSelect.value
 
-  switch (time_limit_unit) {
+  switch (timeLimitUnit) {
     case "year":
-      return (time_limit_number == 1) ? "year" : "all"
+      return (timeLimitNumber == 1) ? "year" : "all"
     case "month":
-      return (time_limit_number == 1) ? "month" : "year"
+      return (timeLimitNumber == 1) ? "month" : "year"
     case "day":
-      if (time_limit_number == 1) {
+      if (timeLimitNumber == 1) {
         return "day"
-      } else if (time_limit_number <= 7) {
+      } else if (timeLimitNumber <= 7) {
         return "week"
       } else {
         return "month"
