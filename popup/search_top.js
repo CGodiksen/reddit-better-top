@@ -48,7 +48,7 @@ const searchTop = () => {
 
 const requestFilterStart = (tabId, _changeInfo, tabInfo) => {
   if (tabInfo.status == "complete") {
-    browser.tabs.sendMessage(tabId, { startFilter: true, time_limit_number: timeLimitNumberInput.value, time_limit_unit: timeLimitUnitSelect.value })
+    browser.tabs.sendMessage(tabId, { startFilter: true, timeLimitNumber: timeLimitNumberInput.value, timeLimitUnit: timeLimitUnitSelect.value })
   }
 }
 

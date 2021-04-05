@@ -1,11 +1,15 @@
+// Global state keeping track of current custom time limit, if any.
+let timeLimitNumber = 0
+let timeLimitUnit = ""
+
 // Filter the initial posts and start the mutation observer that filters subsequent posts.
-const startFilter = (time_limit) => {
-  // TODO: Start the mutation observer.
+const startFilter = () => {
+  observer.observe(document, { childList: true, subtree: true });
   // TODO: Filter the initial posts.
 }
 
 // Remove the given post if it was posted after the given time limit.
-const filterPost = (post, time_limit) => {
+const filterPost = (post) => {
   // TODO: Find the time the post was posted.
   // TODO: Remove it, if it was posted after the given time limit.
 }
@@ -30,20 +34,21 @@ const observer = new MutationObserver((mutationList, _observer) => {
     if (mutation.type == "childList" && mutation.addedNodes.length > 0) {
       mutation.addedNodes.forEach((node) => {
         // If the new node is a post then check if it should be filtered.
-        if (node.tagName == "DIV" && node.id == "" && node.className == "" && Math.random() < 0.5) {
-          node.remove()
+        if (node.tagName == "DIV" && node.id == "" && node.className == "") {
+          filterPost(node)
         }
       })
     }
   })
 });
 
-observer.observe(document, { childList: true, subtree: true });
-
 browser.runtime.onMessage.addListener(request => {
   // Message received from the browser action, sent when "search" button is clicked.
   if (request.startFilter) {
-    console.log(request);
-    // startFilter(request.time_limit)
+    // Set global state with new custom time limit.
+    timeLimitNumber = request.timeLimitNumber
+    timeLimitUnit = request.timeLimitUnit
+
+    startFilter()
   }
 });
