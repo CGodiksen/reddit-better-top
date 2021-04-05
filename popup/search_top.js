@@ -6,6 +6,9 @@ const searchTopBtn = document.querySelector("div.popup-content button[name='sear
 
 const changeInputMax = () => {
   switch (timeLimitUnitSelect.value) {
+    case "hour":
+      timeLimitNumberInput.setAttribute("max", "24")
+      break;
     case "day":
       timeLimitNumberInput.setAttribute("max", "31")
       break;
@@ -14,6 +17,7 @@ const changeInputMax = () => {
       break;
     case "year":
       timeLimitNumberInput.setAttribute("max", "99")
+      break;
   }
 }
 
