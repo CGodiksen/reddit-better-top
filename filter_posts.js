@@ -47,8 +47,10 @@ const withinTimeLimit = (postedTimeNumber, postedTimeUnit) => {
   switch (timeLimitUnit) {
     case "Years":
       return !(postedTimeUnit.includes("year") && postedTimeNumber > timeLimitNumber)
-    default:
-      break;
+    case "Months":
+      return !(postedTimeUnit.includes("month") && postedTimeNumber > timeLimitNumber)
+    case "Days":
+      return !(postedTimeUnit.includes("day") && postedTimeNumber > timeLimitNumber)
   }
 }
 
