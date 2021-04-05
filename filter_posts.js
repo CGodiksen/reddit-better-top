@@ -27,17 +27,10 @@ const startFilter = () => {
 }
 
 // Create an observer that filters a post every time it is added to the document.
-const postObserver = new MutationObserver((mutationList, _observer) => {
-  mutationList.forEach(mutation => {
-    if (mutation.type == "childList" && mutation.addedNodes.length > 0) {
-      mutation.addedNodes.forEach((node) => {
-        // If the new node is a post then check if it should be filtered.
-        if (node.tagName == "DIV" && node.id == "" && node.className == "" && node.firstChild.firstChild) {
-          filterPost(node.firstChild.firstChild)
-        }
-      })
-    }
-  })
+const postObserver = createMutationObserver((node) => {
+  if (node.tagName == "DIV" && node.id == "" && node.className == "" && node.firstChild.firstChild) {
+    filterPost(node.firstChild.firstChild)
+  }
 })
 
 // Return list containing the post that are loaded initially on the page and therefore not caught by the mutation observer.
@@ -107,7 +100,6 @@ const addTopOptions = (topDropdown) => {
 
 // Create an observer that adds the custom top options when the "Top" dropdown is opened. 
 const topObserver = createMutationObserver((node) => {
-  // If the new node is the "Top" dropdown menu then add custom top options.
   if (node.tagName == "DIV" && node.id == "" && node.className == "_2uYY-KeuYHKiwl-9aF0UiL Sgi9lgQUrox4tW9Q75iif isNotInIcons2020") {
     addTopOptions(node)
   }
