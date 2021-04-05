@@ -35,24 +35,11 @@ const filterPost = (post) => {
   const postedTimeUnit = postedTime[1]
 
   console.log(postedTimeNumber, postedTimeUnit);
-  console.log(withinTimeLimit(postedTimeNumber, postedTimeUnit));
+  console.log(!(postedTimeUnit.includes(timeLimitUnit) && postedTimeNumber > timeLimitNumber));
 
-  if (withinTimeLimit(postedTimeNumber, postedTimeUnit)) {
+  if (!(postedTimeUnit.includes(timeLimitUnit) && postedTimeNumber > timeLimitNumber)) {
     // post.remove()
   }
-}
-
-// Return true if the given posted time details are within the current custom time limit.
-const withinTimeLimit = (postedTimeNumber, postedTimeUnit) => {
-  switch (timeLimitUnit) {
-    case "Years":
-      return !(postedTimeUnit.includes("year") && postedTimeNumber > timeLimitNumber)
-    case "Months":
-      return !(postedTimeUnit.includes("month") && postedTimeNumber > timeLimitNumber)
-    case "Days":
-      return !(postedTimeUnit.includes("day") && postedTimeNumber > timeLimitNumber)
-  }
-  return true
 }
 
 // Create an observer that filters a post every time it is added to the document.
