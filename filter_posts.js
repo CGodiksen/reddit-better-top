@@ -94,7 +94,23 @@ const addTopOptions = () => {
   topDropdown.appendChild(twoWeeksOption)
 }
 
-addTopOptions()
+// Create an observer that adds an event listener which adds the custom top options when the "Top" dropdown menu is clicked. 
+const topObserver = new MutationObserver((mutationList, _observer) => {
+  mutationList.forEach(mutation => {
+    if (mutation.type == "childList" && mutation.addedNodes.length > 0) {
+      mutation.addedNodes.forEach((node) => {
+        // If the new node is the "Top" dropdown menu then add event listener.
+        if (node.tagName == "DIV" && node.id == "" && node.className == "_29FQ-HlVE3aNu0iB8mO-ey GzkzdrqG-NjAYH7eKJan4" && node.firstChild.firstChild) {
+          node.firstChild.firstChild.addEventListener("click", () => {
+            console.log("hello");
+          })
+        }
+      })
+    }
+  })
+})
+
+topObserver.observe(document, { childList: true, subtree: true });
 
 // Return a new "a" tag that has a click event listener which starts the specified filter when the tab is reloaded.
 const createTopOption = (optionName, t, timeLimitNumber, timeLimitUnit) => {
