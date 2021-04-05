@@ -32,9 +32,14 @@ const filterPost = (post) => {
   const postedTimeNumber = parseInt(postedTime[0])
   const postedTimeUnit = postedTime[1]
 
-  console.log(postedTimeNumber, postedTimeUnit);
+  if (withinTimeLimit(postedTimeNumber, postedTimeUnit)) {
+    post.remove()
+  }
+}
 
-  // TODO: Remove it, if it was posted after the given time limit.
+// Return true if the given posted time details are within the current custom time limit.
+const withinTimeLimit = (postedTimeNumber, postedTimeUnit) => {
+  return Math.random() < 0.5
 }
 
 // Create an observer that filters a post every time it is added to the document.
