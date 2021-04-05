@@ -2,7 +2,8 @@
 const timeLimitNumberInput = document.querySelector("div.popup-content input[name='time_limit_number']")
 const timeLimitUnitSelect = document.querySelector("div.popup-content select[name='time_limit_unit']")
 
-const searchTopBtn = document.querySelector("div.popup-content button[name='search_top']")
+const searchTopForm = document.querySelector("div.popup-content form[name='search_top_form']")
+const searchTopBtn = document.querySelector("div.popup-content button[name='search_top_btn']")
 
 const changeInputMax = () => {
   switch (timeLimitUnitSelect.value) {
@@ -50,6 +51,8 @@ const searchTop = () => {
   }, console.error)
 }
 
+searchTopForm.addEventListener("submit", searchTop)
+
 const requestFilterStart = (tabId, _changeInfo, tabInfo) => {
   if (tabInfo.status == "complete") {
     browser.tabs.sendMessage(tabId, { startFilter: true, timeLimitNumber: timeLimitNumberInput.value, timeLimitUnit: timeLimitUnitSelect.value })
@@ -88,5 +91,3 @@ const getTopQueryValue = () => {
       }
   }
 }
-
-searchTopBtn.addEventListener("click", searchTop)

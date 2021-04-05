@@ -9,14 +9,16 @@
 
 <body>
   <div class="popup-content">
-    <input type="number" id="time_limit_number" name="time_limit_number" min="1" max="31" value="1">
-    <select name="time_limit_unit" id="time_limit_unit" >
-      <option value="hour">Hours</option>
-      <option value="day" selected>Days</option>
-      <option value="month">Months</option>
-      <option value="year">Years</option>
-    </select>
-    <button name="search_top", disabled>Search</button>
+    <form name="search_top_form">
+      <input type="number" name="time_limit_number" min="1" max="31" value="1">
+      <select name="time_limit_unit">
+        <option value="hour">Hours</option>
+        <option value="day" selected>Days</option>
+        <option value="month">Months</option>
+        <option value="year">Years</option>
+      </select>
+      <button name="search_top_btn" disabled type="submit">Search</button>
+    </form>
   </div>
   <script src="search_top.js"></script>
 </body>
