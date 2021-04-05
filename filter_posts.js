@@ -14,6 +14,8 @@ const startFilter = () => {
 // Remove the given post if it was posted after the given time limit.
 const filterPost = (post) => {
   console.log(post);
+  const postedTime = post.getElementsByTagName("a")[1].innerHTML
+  console.log(postedTime);
   // TODO: Find the time the post was posted.
   // TODO: Remove it, if it was posted after the given time limit.
 }
