@@ -87,23 +87,19 @@ browser.runtime.onMessage.addListener(request => {
 })
 
 // Add commonly used options to the "Top" dropdown menu on the page itself.
-const addTopOptions = () => {
-  const topDropdown = document.getElementsByClassName("_2uYY-KeuYHKiwl-9aF0UiL Sgi9lgQUrox4tW9Q75iif isNotInIcons2020")[0]
-
+const addTopOptions = (topDropdown) => {
   const twoWeeksOption = createTopOption("Last Two Weeks", "month", 14, "day")
   topDropdown.appendChild(twoWeeksOption)
 }
 
-// Create an observer that adds an event listener which adds the custom top options when the "Top" dropdown menu is clicked. 
+// Create an observer that adds the custom top options when the "Top" dropdown is opened. 
 const topObserver = new MutationObserver((mutationList, _observer) => {
   mutationList.forEach(mutation => {
     if (mutation.type == "childList" && mutation.addedNodes.length > 0) {
       mutation.addedNodes.forEach((node) => {
-        // If the new node is the "Top" dropdown menu then add event listener.
-        if (node.tagName == "DIV" && node.id == "" && node.className == "_29FQ-HlVE3aNu0iB8mO-ey GzkzdrqG-NjAYH7eKJan4" && node.firstChild.firstChild) {
-          node.firstChild.firstChild.addEventListener("click", () => {
-            console.log("hello");
-          })
+        // If the new node is the "Top" dropdown menu then add custom top options.
+        if (node.tagName == "DIV" && node.id == "" && node.className == "_2uYY-KeuYHKiwl-9aF0UiL Sgi9lgQUrox4tW9Q75iif isNotInIcons2020") {
+          addTopOptions(node)
         }
       })
     }
