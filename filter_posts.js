@@ -11,15 +11,6 @@ const startFilter = () => {
   observer.observe(document, { childList: true, subtree: true });
 }
 
-// Remove the given post if it was posted after the given time limit.
-const filterPost = (post) => {
-  console.log(post);
-  const postedTime = post.getElementsByTagName("a")[1].innerHTML
-  console.log(postedTime);
-  // TODO: Find the time the post was posted.
-  // TODO: Remove it, if it was posted after the given time limit.
-}
-
 // Return list containing the post that are loaded initially on the page and therefore not caught by the mutation observer.
 const getInitialPosts = () => {
   const initialPosts = []
@@ -32,6 +23,18 @@ const getInitialPosts = () => {
   }
 
   return initialPosts
+}
+
+// Remove the given post if it was posted after the given time limit.
+const filterPost = (post) => {
+  const postedTime = post.getElementsByTagName("a")[1].innerHTML.split(" ")
+  
+  const postedTimeNumber = parseInt(postedTime[0])
+  const postedTimeUnit = postedTime[1]
+
+  console.log(postedTimeNumber, postedTimeUnit);
+
+  // TODO: Remove it, if it was posted after the given time limit.
 }
 
 // Create an observer that filters a post every time it is added to the document.
