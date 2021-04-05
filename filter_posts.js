@@ -94,8 +94,7 @@ browser.runtime.onMessage.addListener(request => {
 
 // Add commonly used options to the "Top" dropdown menu on the page itself.
 const addTopOptions = (topDropdown) => {
-  const twoWeeksOption = createTopOption("Last Two Weeks", "month", 14, "day")
-  topDropdown.appendChild(twoWeeksOption)
+  createTopOption("Last Two Weeks", "month", 14, "day", topDropdown)
 }
 
 // Create an observer that adds the custom top options when the "Top" dropdown is opened. 
@@ -107,8 +106,8 @@ const topObserver = createMutationObserver((node) => {
 
 topObserver.observe(document, { childList: true, subtree: true });
 
-// Return a new "a" tag that has a click event listener which starts the specified filter when the tab is reloaded.
-const createTopOption = (optionName, t, timeLimitNumber, timeLimitUnit) => {
+// Create a new top option that has a click event listener which starts the specified filter when the tab is reloaded.
+const createTopOption = (optionName, t, timeLimitNumber, timeLimitUnit, topDropdown) => {
   const newOption = document.getElementsByClassName("_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G")[5].cloneNode(true)
 
   newOption.setAttribute("href", `${newOption.href.slice(0, -4)}${t}`)
@@ -119,5 +118,5 @@ const createTopOption = (optionName, t, timeLimitNumber, timeLimitUnit) => {
     browser.runtime.sendMessage({ startFilterOnUpdate: true, timeLimitNumber: timeLimitNumber, timeLimitUnit: timeLimitUnit })
   })
 
-  return newOption
+  topDropdown.appendChild(newOption)
 }
