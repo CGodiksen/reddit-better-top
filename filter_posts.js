@@ -1,3 +1,4 @@
+// TODO: Add Hours option to custom time limit.
 // TODO: Add more options to the "Top" menu on the page itself.
 
 // Global state keeping track of current custom time limit, if any.
@@ -27,6 +28,7 @@ const getInitialPosts = () => {
   return initialPosts
 }
 
+// TODO: Handle edge case with days and "1 month" (also handle "1 day" when hours is added). Maybe just change "1 month" to "31 days" and "1 day" to "24 hours" in function.
 // Remove the given post if it was posted after the given time limit.
 const filterPost = (post) => {
   const postedTime = post.getElementsByTagName("a")[1].innerHTML.split(" ")
