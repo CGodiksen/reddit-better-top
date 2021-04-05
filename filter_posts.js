@@ -1,3 +1,5 @@
+// TODO: Add more options to the "Top" menu on the page itself.
+
 // Global state keeping track of current custom time limit, if any.
 let timeLimitNumber = 0
 let timeLimitUnit = ""
@@ -32,14 +34,22 @@ const filterPost = (post) => {
   const postedTimeNumber = parseInt(postedTime[0])
   const postedTimeUnit = postedTime[1]
 
+  console.log(postedTimeNumber, postedTimeUnit);
+  console.log(withinTimeLimit(postedTimeNumber, postedTimeUnit));
+
   if (withinTimeLimit(postedTimeNumber, postedTimeUnit)) {
-    post.remove()
+    // post.remove()
   }
 }
 
 // Return true if the given posted time details are within the current custom time limit.
 const withinTimeLimit = (postedTimeNumber, postedTimeUnit) => {
-  return Math.random() < 0.5
+  switch (timeLimitUnit) {
+    case "Years":
+      return !(postedTimeUnit.includes("year") && postedTimeNumber > timeLimitNumber)
+    default:
+      break;
+  }
 }
 
 // Create an observer that filters a post every time it is added to the document.
