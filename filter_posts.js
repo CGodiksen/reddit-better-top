@@ -94,7 +94,9 @@ browser.runtime.onMessage.addListener(request => {
 
 // Add commonly used options to the "Top" dropdown menu on the page itself.
 const addTopOptions = (topDropdown) => {
-  createTopOption("Last Two Weeks", "month", 14, "day", topDropdown)
+  createTopOption("Three Days", "week", 3, "day", topDropdown)
+  createTopOption("Two Weeks", "month", 14, "day", topDropdown)
+  createTopOption("Six Months", "year", 6, "month", topDropdown)
 }
 
 // Create an observer that adds the custom top options when the "Top" dropdown is opened. 
