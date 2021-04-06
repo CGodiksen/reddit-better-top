@@ -18,7 +18,8 @@ const validateNumberInput = (e) => {
 
 timeLimitNumberInput.oninput = validateNumberInput
 
-const changeNumberInputMax = () => {
+const onUnitSelectChange = () => {
+  // Change number input max.
   switch (timeLimitUnitSelect.value) {
     case "hour":
       timeLimitNumberInput.setAttribute("max", "24")
@@ -33,9 +34,11 @@ const changeNumberInputMax = () => {
       timeLimitNumberInput.setAttribute("max", "99")
       break;
   }
+
+  timeLimitNumberInput.value = 1
 }
 
-timeLimitUnitSelect.addEventListener("change", changeNumberInputMax)
+timeLimitUnitSelect.addEventListener("change", onUnitSelectChange)
 
 // Enable the search button if the current active tab is a Reddit page that has the "Top" feature.
 const enableIfRedditTop = () => {
