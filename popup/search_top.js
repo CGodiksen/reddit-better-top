@@ -30,8 +30,7 @@ const enableIfRedditTop = () => {
     const splitURL = tab.url.split("/")
 
     // Only considering pages that have the "Top" feature. 
-    // TODO: Handle different viable urls on the reddit frontpage. 
-    if (tab.url == "https://www.reddit.com/" || (splitURL[3] == "r" && ["", "hot", "new", "top"].includes(splitURL[5]))) {
+    if (tab.url == "https://www.reddit.com/" || (splitURL[3] == "r" && ["", "hot", "new", "top"].includes(splitURL[5])) || ["hot", "new", "top"].includes(splitURL[3])) {
       searchTopBtn.removeAttribute("disabled")
     }
   }, console.error)
@@ -64,9 +63,11 @@ const getTopURL = (originalURL) => {
 
   if (originalURL == "https://www.reddit.com/") {
     return `${originalURL}top/?t=${t}`
-  } else {
+  } else if (originalURL.includes("/r/")) {
     const cleanURL = originalURL.split("/").slice(0, 5).join("/")
     return `${cleanURL}/top/?t=${t}`
+  } else {
+    return `https://www.reddit.com/top/?t=${t}`
   }
 }
 
