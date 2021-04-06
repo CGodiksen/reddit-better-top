@@ -18,6 +18,7 @@ select {
   background-color: #292929;
   border-color: #FF5700;
   color: white;
+  width: 72px;
 }
 
 button {

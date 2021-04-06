@@ -15,17 +15,21 @@ const onNumberInputChange = (e) => {
     e.target.value = e.target.value.slice(0, -1)
   }
 
-  // Change the plurality of the select text depending on whether the new value is a 1.
-  const options = Array.from(timeLimitUnitSelect.options)
-
-  if (e.target.value == 1) {
-    options.map(option => option.innerHTML = option.innerHTML.slice(0, -1))
-  } else if (options[0].innerHTML == "Hour") {
-    options.map(option => option.innerHTML = option.innerHTML + "s")
-  }
+  handlePlurality(e.target.value)
 }
 
 timeLimitNumberInput.oninput = onNumberInputChange
+
+// Change the plurality of the select text depending on whether the new value is a 1.
+const handlePlurality = (newValue) => {
+  const options = Array.from(timeLimitUnitSelect.options)
+
+  if (newValue == 1 && options[0].innerHTML == "Hours") {
+    options.map(option => option.innerHTML = option.innerHTML.slice(0, -1))
+  } else if (newValue != 1 && options[0].innerHTML == "Hour") {
+    options.map(option => option.innerHTML = option.innerHTML + "s")
+  }
+} 
 
 const onUnitSelectChange = () => {
   // Change number input max.
@@ -45,6 +49,7 @@ const onUnitSelectChange = () => {
   }
 
   timeLimitNumberInput.value = 1
+  handlePlurality(1)
 }
 
 timeLimitUnitSelect.addEventListener("change", onUnitSelectChange)
