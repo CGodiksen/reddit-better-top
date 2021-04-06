@@ -4,7 +4,7 @@ const timeLimitUnitSelect = document.querySelector("div.popup-content select[nam
 
 const searchTopBtn = document.querySelector("div.popup-content button[name='search_btn']")
 
-const validateNumberInput = (e) => {
+const onNumberInputChange = (e) => {
   // Resetting the input if a non-number is input.
   if (isNaN(e.data)) {
     e.target.value = ""
@@ -14,9 +14,18 @@ const validateNumberInput = (e) => {
   if (parseInt(e.target.value) > parseInt(timeLimitNumberInput.max)) {
     e.target.value = e.target.value.slice(0, -1)
   }
+
+  // Change the plurality of the select text depending on whether the new value is a 1.
+  const options = Array.from(timeLimitUnitSelect.options)
+
+  if (e.target.value == 1) {
+    options.map(option => option.innerHTML = option.innerHTML.slice(0, -1))
+  } else if (options[0].innerHTML == "Hour") {
+    options.map(option => option.innerHTML = option.innerHTML + "s")
+  }
 }
 
-timeLimitNumberInput.oninput = validateNumberInput
+timeLimitNumberInput.oninput = onNumberInputChange
 
 const onUnitSelectChange = () => {
   // Change number input max.
