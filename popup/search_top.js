@@ -4,7 +4,19 @@ const timeLimitUnitSelect = document.querySelector("div.popup-content select[nam
 
 const searchTopBtn = document.querySelector("div.popup-content button[name='search_btn']")
 
-const changeInputMax = () => {
+const validateNumberInput = (e) => {
+  // Resetting the input if a non-number is input.
+  if (isNaN(e.data)) {
+    e.target.value = ""
+  }
+
+  // Not allowing further input if it excedes max length.
+  e.target.value = e.target.value.slice(0, 2)
+}
+
+timeLimitNumberInput.oninput = validateNumberInput
+
+const changeNumberInputMax = () => {
   switch (timeLimitUnitSelect.value) {
     case "hour":
       timeLimitNumberInput.setAttribute("max", "24")
@@ -21,7 +33,7 @@ const changeInputMax = () => {
   }
 }
 
-timeLimitUnitSelect.addEventListener("change", changeInputMax)
+timeLimitUnitSelect.addEventListener("change", changeNumberInputMax)
 
 // Enable the search button if the current active tab is a Reddit page that has the "Top" feature.
 const enableIfRedditTop = () => {
