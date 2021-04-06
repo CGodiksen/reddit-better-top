@@ -49,7 +49,8 @@ const getInitialPosts = () => {
 
 // Remove the given post if it was posted after the given time limit.
 const filterPost = (post) => {
-  const postedTime = post.getElementsByTagName("a")[1].innerHTML.split(" ")
+  const postInfo = post.getElementsByTagName("a")
+  const postedTime = Array.from(postInfo).filter(post => post.getAttribute("data-click-id") == "timestamp")[0].innerHTML.split(" ")
 
   const postedTimeNumber = parseInt(postedTime[0])
   const postedTimeUnit = postedTime[1]
