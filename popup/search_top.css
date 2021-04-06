@@ -34,6 +34,10 @@ button:hover {
   background-color: #ff5500ce;
 }
 
+button:disabled {
+  background: rgba(204, 204, 204, 0.774);
+}
+
 h4 {
   margin-top: 0px;
   margin-bottom: 10px;
