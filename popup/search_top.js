@@ -61,9 +61,7 @@ const requestFilterStart = (tabId, _changeInfo, tabInfo) => {
 const getTopURL = (originalURL) => {
   const t = getTopQueryValue()
 
-  if (originalURL == "https://www.reddit.com/") {
-    return `${originalURL}top/?t=${t}`
-  } else if (originalURL.includes("/r/")) {
+  if (originalURL.includes("/r/")) {
     const cleanURL = originalURL.split("/").slice(0, 5).join("/")
     return `${cleanURL}/top/?t=${t}`
   } else {
