@@ -1,9 +1,3 @@
-// TODO: Apply validation to input when button is clicked.
-
-// Global state keeping track of current custom time limit, if any.
-let timeLimitNumber = 0
-let timeLimitUnit = ""
-
 // Return a mutation observer that calls the given callback for each node that is added to the DOM.
 const createMutationObserver = (callback) => {
   return new MutationObserver((mutationList, _observer) => {
@@ -18,20 +12,20 @@ const createMutationObserver = (callback) => {
 }
 
 // Filter the initial posts and start the mutation observer that filters subsequent posts.
-const startFilter = () => {
+const startFilter = (timeLimitNumber, timeLimitUnit) => {
   for (const post of getInitialPosts()) {
-    filterPost(post)
+    filterPost(post, timeLimitNumber, timeLimitUnit)
   }
+
+  // Create an observer that filters a post every time it is added to the document.
+  const postObserver = createMutationObserver((node) => {
+    if (node.tagName == "DIV" && node.id == "" && node.className == "" && node.firstChild.firstChild) {
+      filterPost(node.firstChild.firstChild, timeLimitNumber, timeLimitUnit)
+    }
+  })
 
   postObserver.observe(document, { childList: true, subtree: true });
 }
-
-// Create an observer that filters a post every time it is added to the document.
-const postObserver = createMutationObserver((node) => {
-  if (node.tagName == "DIV" && node.id == "" && node.className == "" && node.firstChild.firstChild) {
-    filterPost(node.firstChild.firstChild)
-  }
-})
 
 // Return list containing the post that are loaded initially on the page and therefore not caught by the mutation observer.
 const getInitialPosts = () => {
@@ -48,19 +42,20 @@ const getInitialPosts = () => {
 }
 
 // Remove the given post if it was posted after the given time limit.
-const filterPost = (post) => {
+const filterPost = (post, timeLimitNumber, timeLimitUnit) => {
   const postInfo = post.getElementsByTagName("a")
   const postedTime = Array.from(postInfo).filter(post => post.getAttribute("data-click-id") == "timestamp")[0].innerHTML.split(" ")
 
   const postedTimeNumber = parseInt(postedTime[0])
   const postedTimeUnit = postedTime[1]
 
-  if (outsideTimeLimit(postedTimeNumber, postedTimeUnit)) {
+  if (outsideTimeLimit(timeLimitNumber, timeLimitUnit, postedTimeNumber, postedTimeUnit)) {
     post.remove()
   }
 }
 
-const outsideTimeLimit = (postedTimeNumber, postedTimeUnit) => {
+// Return true if the posted time is outside the given time limit.
+const outsideTimeLimit = (timeLimitNumber, timeLimitUnit, postedTimeNumber, postedTimeUnit) => {
   // Handle edge cases.
   if (postedTimeNumber == 1) {
     switch (postedTimeUnit) {
@@ -85,11 +80,7 @@ const outsideTimeLimit = (postedTimeNumber, postedTimeUnit) => {
 browser.runtime.onMessage.addListener(request => {
   // Message received from the browser action, sent when "search" button is clicked.
   if (request.startFilter) {
-    // Set global state with new custom time limit.
-    timeLimitNumber = request.timeLimitNumber
-    timeLimitUnit = request.timeLimitUnit
-
-    startFilter()
+    startFilter(request.timeLimitNumber, request.timeLimitUnit)
   }
 })
 
