@@ -10,8 +10,10 @@ const validateNumberInput = (e) => {
     e.target.value = ""
   }
 
-  // Not allowing further input if it excedes max length.
-  e.target.value = e.target.value.slice(0, 2)
+  // Not allowing the input if the new value excedes the max value.
+  if (parseInt(e.target.value) > parseInt(timeLimitNumberInput.max)) {
+    e.target.value = e.target.value.slice(0, -1)
+  }
 }
 
 timeLimitNumberInput.oninput = validateNumberInput
